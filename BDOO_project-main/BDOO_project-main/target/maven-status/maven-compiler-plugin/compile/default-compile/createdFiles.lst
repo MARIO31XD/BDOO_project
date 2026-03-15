@@ -1,0 +1,4 @@
+com\mycompany\dao\CartaDAO.class
+com\mycompany\model\Carta.class
+com\mycompany\bdoo\BDOO.class
+com\mycompany\util\BDOOUtil.class
