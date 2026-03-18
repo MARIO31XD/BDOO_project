@@ -13,8 +13,22 @@ public class TerraDAO {
         EntityManager em = BDOOUtil.getEntityManager();
         
         Scanner sn = new Scanner(System.in);
-        System.out.println("Introdueix un nom:");
+        System.out.println("Introdueix un nom: ");
         sn.nextLine();
+        
+        System.out.println("Introdueix una descripció: ");
+        sn.nextLine();
+        
+        System.out.println("Introdueix la edició de la carta: ");
+        sn.nextLine();
+        
+        System.out.println("Introdueix color de Producció (de mana)");
+        sn.nextLine();
+        
+        System.out.println("Indica si la carta és básica o especial: ");
+        sn.nextLine();
+        
+        
 
     try {
          
