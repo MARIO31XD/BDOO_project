@@ -1,10 +1,12 @@
 package com.mycompany.util;
 import com.mycompany.model.CostMana;
+import com.mycompany.model.Criatura;
 import java.io.*;
 import java.util.*;
 
 import com.mycompany.model.Encanteri;
 import com.mycompany.model.Raresa;
+import com.mycompany.model.Terra;
 
 public class ImportadorDeCartes {
     
@@ -44,7 +46,7 @@ public class ImportadorDeCartes {
         //devuelve la lista de cartas con todas mezcladas
         return cartes;
     }
-/*
+
     // CRIATURA
     // [0]TIPUS | [1]NOM | [2]DESC | [3]RARESA | [4]COST | [5]FORÇA | [6]RES | [7]TIPUS_CRIATURA | [8]VOLA
     private Criatura parseCriatura(String[] p) {
@@ -68,14 +70,14 @@ public class ImportadorDeCartes {
         String nom = p[1].trim();
         String descripcio = p[2].trim();
         Raresa raresa = Raresa.valueOf(p[3].trim());
-        ColorMana color = ColorMana.valueOf(p[4].trim());
+        ColorProduccio colorProduccio = colorProduccio.valueOf(p[4].trim());
         boolean esBasica = Boolean.parseBoolean(p[5].trim());
     
         String edicio = "No esta al txt";
 
-        return new Terra(nom, descripcio, raresa, color, esBasica);
+        return new Terra(nom, descripcio, raresa, colorProduccio, esBasica);
     }
-*/
+
     // ENCANTERI 
     // [0]TIPUS | [1]NOM | [2]DESC | [3]RARESA | [4]COST | [5]TIPUS_ENC | [6]ES_INSTANTANI
     private Encanteri parseEncanteri(String[] p) {
