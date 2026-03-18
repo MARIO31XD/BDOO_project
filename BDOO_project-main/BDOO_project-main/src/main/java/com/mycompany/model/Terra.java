@@ -1,38 +1,25 @@
-
 package com.mycompany.model;
 
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Entity
-
 public class Terra extends Carta {
-
-    String tipus;
-
-    boolean esBasica = false; // terra básica o especial
+    private String tipus;
+    private boolean esBasica;
     
-    ColorProduccio colorProduccio; // color de produccio de mana
+    @Enumerated(EnumType.STRING)
+    private ColorProduccio colorProduccio;
 
-    enum ColorProduccio {  // color de produccio de mana
-        VERMELL, BLAU, VERD
-    }
-    public Terra(String nom, String descripcio, String edicio, String tipus, ColorProduccio colorProduccio , boolean esBasica) {
-        super(nom, descripcio, edicio);
+    public enum ColorProduccio { VERMELL, BLAU, VERD, BLANC, NEGRE, INCOLOR }
+
+    public Terra() {}
+
+    public Terra(String nom, String descripcio, String edicio, Raresa raresa, CostMana cost, String tipus, ColorProduccio color, boolean esBasica) {
+        super(nom, descripcio, edicio, raresa, cost);
         this.tipus = tipus;
+        this.colorProduccio = color;
         this.esBasica = esBasica;
-        this.colorProduccio = colorProduccio;}
-    
-
-    public String getTipus() {
-        return tipus;
     }
-
-    public boolean esBasica() {
-        return esBasica;
-    }
-
 }
-
