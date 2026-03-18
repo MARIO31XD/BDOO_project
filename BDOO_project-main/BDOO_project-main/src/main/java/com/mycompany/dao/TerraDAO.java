@@ -2,6 +2,7 @@ package com.mycompany.dao;
 
 import com.mycompany.model.Terra;
 import com.mycompany.util.BDOOUtil;
+import java.util.Scanner;
 import javax.persistence.EntityManager;
 
 
@@ -10,6 +11,10 @@ public class TerraDAO {
     public void crearTerra(Terra terra) {
 
         EntityManager em = BDOOUtil.getEntityManager();
+        
+        Scanner sn = new Scanner(System.in);
+        System.out.println("Introdueix un nom:");
+        sn.nextLine();
 
     try {
          
@@ -27,8 +32,8 @@ public class TerraDAO {
 
     }
     catch(Exception e ){
-        if (em.getTransaction().isActive) {
-            em.getTransaction().rollBack(); // rollback per si falla la transaction
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback(); // rollback per si falla la transaction
 
         }
         e.printStackTrace();
