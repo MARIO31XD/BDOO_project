@@ -1,25 +1,26 @@
 package com.mycompany.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Carta implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+public abstract class Carta {
 
-    protected String nom;
-    protected String descripcio;
-    protected String edicio;
+    @Id
+    @GeneratedValue
+    public Long id;
+
+    public String nom;
+    public String descripcio;
+    public String edicio;
 
     @Enumerated(EnumType.STRING)
-    protected Raresa raresa;
+    public Raresa raresa;
 
     @Embedded
-    protected CostMana cost;
+    public CostMana cost;
 
+    // Constructor necesario para JPA.
     public Carta() {}
 
     public Carta(String nom, String descripcio, String edicio, Raresa raresa, CostMana cost) {
@@ -30,7 +31,27 @@ public abstract class Carta implements Serializable {
         this.cost = cost;
     }
 
-    public String getNom() { return nom; }
-    public String getEdicio() { return edicio; }
-    public Raresa getRaresa() { return raresa; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getDescripcio() {
+        return descripcio;
+    }
+
+    public String getEdicio() {
+        return edicio;
+    }
+
+    public Raresa getRaresa() {
+        return raresa;
+    }
+
+    public CostMana getCost() {
+        return cost;
+    }
 }
