@@ -91,8 +91,10 @@ public class EncanteriDAO {
         
         CostMana cost = new CostMana(blanc, blau, negre, vermell, verd, incolor);
         
+        // tipus
+        System.out.println("Introdueix tipus:");
+        String tipus = s.nextLine();
         
-
         try {
             //comença la transaccio
             em.getTransaction().begin();
