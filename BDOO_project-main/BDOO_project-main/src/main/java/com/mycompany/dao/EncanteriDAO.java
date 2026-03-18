@@ -17,14 +17,20 @@ public class EncanteriDAO {
         EntityManager em = BDOOUtil.getEntityManager();
 
         boolean continuar = false;
+        
+        Raresa raresa = null;
+        boolean esInstantani = false;
 
         Scanner s = new Scanner(System.in);
+        
+        //comença la transaccio
 
         System.out.println("Inrodueix nom:");
         String nom = s.nextLine();
-        //String nom, String descripcio, Raresa raresa, CostMana cost, String tipus, boolean esInstantani
         System.out.println("Descripció:");
         String descr = s.nextLine();
+        System.out.println("Edició:");
+        String edicio = s.nextLine();
 
         // raresa
         do {
@@ -33,8 +39,6 @@ public class EncanteriDAO {
             System.out.println("[1] Comuna");
             System.out.println("[2] Rara");
             System.out.println("[3] Mítica");
-
-            Raresa raresa = null;
 
             System.out.println("Selecciona raresa: [1, 2, 3]");
             String r = s.nextLine();
@@ -57,7 +61,7 @@ public class EncanteriDAO {
                     break;
             }
 
-        } while (continuar == false);
+        } while (!continuar);
 
         //reinicia continuar per reutilitrzarla
         continuar = false;
@@ -95,6 +99,30 @@ public class EncanteriDAO {
         System.out.println("Introdueix tipus:");
         String tipus = s.nextLine();
         
+        // es instantania        
+        do {
+            
+            System.out.println("Es instantani? [SI / NO]");
+            String resposta = s.nextLine();
+            // passem a minuscules
+            String r = resposta.toLowerCase();
+            // comprobem
+            if (r.equals("si")) {
+                esInstantani = true;
+                continuar = true;
+            } else if (r.equals("no")) {
+                esInstantani = false;
+                continuar = true;
+            } else {
+                System.out.println("Resposta incorrecta, torna a escriure SI o NO.");
+            }
+            
+        } while (!continuar);
+        
+        //creem objecte
+        Encanteri enc = new Encanteri(nom, descr, edicio, raresa, cost, tipus, esInstantani);
+        
+        //guardar objecte
         try {
             //comença la transaccio
             em.getTransaction().begin();
@@ -114,6 +142,23 @@ public class EncanteriDAO {
             em.close();
         }
 
+    }
+    
+    //obtenir per id
+    public Encanteri obtenirEncanteriPerID(int id) {
+        
+        EntityManager em = BDOOUtil.getEntityManager();
+        
+        TypedQuery<Encanteri> query = em.createQuery( "SELECT e FROM Encanteris e WHERE e.id = :id", Encanteri.class);
+        
+        query.setParameter("id", id);
+        return query.getSingleResult();
+    }
+    
+    //actualitzar encanteri
+    
+    public Encanteri actualitzarEncanteri(Encanteri enc) {
+        return enc;
     }
 
 }
