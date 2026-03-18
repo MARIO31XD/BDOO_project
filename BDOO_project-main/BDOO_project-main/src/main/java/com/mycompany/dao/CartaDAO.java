@@ -4,44 +4,38 @@ import com.mycompany.model.Carta;
 import com.mycompany.util.BDOOUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 public class CartaDAO {
 
-    //crear
-    public void crearCarta(String nom, String descripcio, String edicio) {
-        
-            //EntityManagerFactory emf = Persistence.createEntityManagerFactory("db/cartes.odb");
-            EntityManager em = BDOOUtil.getEntityManager();
-
-        //try {
+    // Nota: El mètode crearCarta ara rep un objecte Carta (que serà una Terra o Criatura)
+    public void guardarCarta(Carta carta) {
+        EntityManager em = BDOOUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
         try {
-            //començar la transaccio
-            em.getTransaction().begin();
-            
-            //crear la carta amb els valors que entren per el metode
-            Carta c = new Carta(nom, descripcio, edicio);
-            
-            //guardar la carta
-            em.persist(c);
-            em.getTransaction().commit();
-            
-            System.out.println("Carta guardada.");
-
-            //omstrar la carta test
-            System.out.println("Mostrar carta:");
-
-            TypedQuery<Carta> query = em.createQuery("SELECT c FROM Carta c WHERE c.nom = 'Cloud'", Carta.class);
-            List<Carta> resultats = query.getResultList();
-
-            for (Carta ca : resultats) {
-                System.out.println(ca.getNom());
-            }
-
+            tx.begin();
+            em.persist(carta); // Això funciona per a qualsevol filla de Carta
+            tx.commit();
+            System.out.println("Carta guardada correctament: " + carta.getNom());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            if (tx.isActive()) tx.rollback();
+            System.err.println("Error al guardar: " + e.getMessage());
+        } finally {
+            em.close();
         }
-
     }
 
+    public void llistarCartes() {
+        EntityManager em = BDOOUtil.getEntityManager();
+        try {
+            TypedQuery<Carta> query = em.createQuery("SELECT c FROM Carta c", Carta.class);
+            List<Carta> resultats = query.getResultList();
+            for (Carta ca : resultats) {
+                System.out.println("Nom: " + ca.getNom() + " | Edició: " + ca.getEdicio());
+            }
+        } finally {
+            em.close();
+        }
+    }
 }

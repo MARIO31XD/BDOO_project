@@ -2,51 +2,39 @@ package com.mycompany.dao;
 
 import com.mycompany.model.Terra;
 import com.mycompany.util.BDOOUtil;
-import java.util.Scanner;
 import javax.persistence.EntityManager;
-
+import javax.persistence.EntityTransaction;
 
 public class TerraDAO {
 
     public void crearTerra(Terra terra) {
-
         EntityManager em = BDOOUtil.getEntityManager();
-        
-        Scanner sn = new Scanner(System.in);
-        System.out.println("Introdueix un nom:");
-        sn.nextLine();
+        EntityTransaction tx = em.getTransaction();
 
-    try {
-         
-        // begin transaction
-         em.getTransaction().begin();
-         //guardar persisteix al object terra
-         em.persist(terra);
-         
-         // commitejar els canvis
-         em.getTransaction().commit();
+        try {
+            // Començar la transacció
+            tx.begin();
+            
+            // Persistir l'objecte terra
+            em.persist(terra);
+            
+            // Confirmar els canvis
+            tx.commit();
 
-         System.out.println(" Terra creada correctament");
+            System.out.println("Terra creada correctament: " + terra.getNom());
 
-
-
-    }
-    catch(Exception e ){
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().rollback(); // rollback per si falla la transaction
-
+        } catch (Exception e) {
+            // Corregit: isActive() és un mètode i rollback() va en minúscules
+            if (tx != null && tx.isActive()) {
+                tx.rollback(); 
+                System.err.println("Error en la transacció, s'ha fet rollback.");
+            }
+            e.printStackTrace();
+        } finally {
+            // Tancar l'EntityManager sempre
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-        e.printStackTrace();
-
     }
-    finally {
-        em.close();
-    }
-
-
-
-        
-
-    }
-
 }
