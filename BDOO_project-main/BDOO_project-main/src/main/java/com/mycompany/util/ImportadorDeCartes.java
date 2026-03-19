@@ -61,21 +61,22 @@ public class ImportadorDeCartes {
     
         String edicio = "No esta al txt";
 
-        return new Criatura(nom, descripcio, raresa, cost, forca, resistencia, tipusCr, vola);
+        return new Criatura(nom, descripcio, edicio,raresa, cost, forca, resistencia, tipusCr, vola);
     }
 
     // TERRA
     // [0]TIPUS | [1]NOM | [2]DESC | [3]RARESA | [4]COLOR_PRODUCCIO | [5]ES_BASICA
     private Terra parseTerra(String[] p) {
+        String tipus = p[0].trim();
         String nom = p[1].trim();
         String descripcio = p[2].trim();
         Raresa raresa = Raresa.valueOf(p[3].trim());
-        ColorProduccio colorProduccio = colorProduccio.valueOf(p[4].trim());
+        ColorProduccio colorProduccio = ColorProduccio.valueOf(p[4].trim());
         boolean esBasica = Boolean.parseBoolean(p[5].trim());
     
         String edicio = "No esta al txt";
-
-        return new Terra(nom, descripcio, raresa, colorProduccio, esBasica);
+        
+        return new Terra(nom, descripcio, raresa,edicio, tipus,colorProduccio, esBasica);
     }
 
     // ENCANTERI 
