@@ -44,8 +44,8 @@ public class CartaDAO {
 
         query.setParameter("id", id);
 
-        
         return query.getSingleResult();
+        //para imprimir la carta hacer: Carta c = cDAO.obtenirCartaPerID(id); System.out.print(c);
     }
 
     //obtenir totes les cartes
