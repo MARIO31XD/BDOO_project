@@ -1,6 +1,6 @@
 package com.mycompany.dao;
 
-import com.mycompany.model.Carta;
+import com.mycompany.dao.*;
 import com.mycompany.model.CostMana;
 import com.mycompany.model.Encanteri;
 import com.mycompany.model.Raresa;
@@ -14,17 +14,16 @@ public class EncanteriDAO {
 
     public void crearEncanteri() {
 
-        EntityManager em = BDOOUtil.getEntityManager();
+        CartaDAO cartaDAO = new CartaDAO();
 
         boolean continuar = false;
-        
+
         Raresa raresa = null;
         boolean esInstantani = false;
 
         Scanner s = new Scanner(System.in);
-        
-        //comença la transaccio
 
+        //comença la transaccio
         System.out.println("Inrodueix nom:");
         String nom = s.nextLine();
         System.out.println("Descripció:");
@@ -92,16 +91,16 @@ public class EncanteriDAO {
         System.out.println("Incolor:");
         int incolor = s.nextInt();
         s.nextLine();
-        
+
         CostMana cost = new CostMana(blanc, blau, negre, vermell, verd, incolor);
-        
+
         // tipus
         System.out.println("Introdueix tipus:");
         String tipus = s.nextLine();
-        
+
         // es instantania        
         do {
-            
+
             System.out.println("Es instantani? [SI / NO]");
             String resposta = s.nextLine();
             // passem a minuscules
@@ -116,49 +115,20 @@ public class EncanteriDAO {
             } else {
                 System.out.println("Resposta incorrecta, torna a escriure SI o NO.");
             }
-            
+
         } while (!continuar);
-        
+
         //creem objecte
         Encanteri enc = new Encanteri(nom, descr, edicio, raresa, cost, tipus, esInstantani);
-        
-        //guardar objecte
-        try {
-            //comença la transaccio
-            em.getTransaction().begin();
-            //guardar
-            em.persist(enc);
-            //guardar canvis al fitxer
-            em.getTransaction().commit();
-
-            System.out.println("Encanteri creat.");
-
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            em.close();
-        }
+        //creem objecte per a la bd
+        cartaDAO.crearCarta(enc);
 
     }
-    
-    //obtenir per id
-    public Encanteri obtenirEncanteriPerID(int id) {
-        
-        EntityManager em = BDOOUtil.getEntityManager();
-        
-        TypedQuery<Encanteri> query = em.createQuery( "SELECT e FROM Encanteris e WHERE e.id = :id", Encanteri.class);
-        
-        query.setParameter("id", id);
-        return query.getSingleResult();
-    }
-    
+
     //actualitzar encanteri
-    
     public Encanteri actualitzarEncanteri(Encanteri enc) {
         return enc;
     }
 
+    //eliminar encanteri
 }
