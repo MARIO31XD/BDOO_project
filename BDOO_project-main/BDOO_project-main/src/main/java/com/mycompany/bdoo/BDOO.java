@@ -6,6 +6,7 @@ import com.mycompany.dao.CriaturaDAO;
 import com.mycompany.dao.EncanteriDAO;
 import com.mycompany.dao.JugadorDAO;
 import com.mycompany.dao.MazoDAO;
+import com.mycompany.dao.QueryDAO;
 import com.mycompany.dao.TerraDAO;
 import com.mycompany.model.Carta;
 import com.mycompany.model.Criatura;
@@ -14,14 +15,17 @@ import com.mycompany.model.Jugador;
 import com.mycompany.model.Mazo;
 import com.mycompany.model.Terra;
 import com.mycompany.util.BDOOUtil;
+import com.mycompany.util.ImportadorDeCartes;
+import java.util.List;
 import java.util.Scanner;
+import javax.persistence.EntityManager;
 
 public class BDOO {
 
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_RED = "\u001B[30m";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         EncanteriDAO encDAO = new EncanteriDAO();
         TerraDAO tDAO = new TerraDAO();
@@ -29,6 +33,7 @@ public class BDOO {
         CartaDAO cDAO = new CartaDAO();
         MazoDAO mazoDAO = new MazoDAO();
         JugadorDAO jugadorDAO = new JugadorDAO();
+        QueryDAO queryDAO = new QueryDAO();
         Scanner s = new Scanner(System.in);
 
         System.out.println("-- POLY-DECK ENGINE: Magic The Gathering --");
@@ -57,7 +62,15 @@ public class BDOO {
             System.out.println("14. Modificar jugador");
             System.out.println("15. Eliminar jugador");
             System.out.println(ANSI_YELLOW + "-- Consultes --");
-            System.out.println(ANSI_YELLOW + "--------------");
+            System.out.println("-- Consultes --");
+            System.out.println("16. Importar cartes des de fitxer");
+            System.out.println("17. Assignar mazo a jugador");
+            System.out.println("18. Treure mazo de jugador");
+            System.out.println("19. Criaturas que volen amb cost de mana");
+            System.out.println("20. Mitja de força de criaturas d'un mazo");
+            System.out.println("21. Encanteris sense blau ni blanc i incolor > 3");
+            System.out.println(ANSI_YELLOW + "----Extra-----");
+            System.out.println("50. Importar cartes des de fitxer");
             System.out.println("0. Sortir");
             System.out.println("==========================");
             System.out.print("Selecciona una opció: ");
@@ -73,9 +86,9 @@ public class BDOO {
                     System.out.println("2. Criatura");
                     System.out.println("3. Terra");
                     System.out.print("Selecciona: ");
-                    
+
                     String tipusCarta = s.nextLine();
-                    
+
                     switch (tipusCarta) {
                         case "1":
                             encDAO.crearEncanteri();
@@ -114,15 +127,15 @@ public class BDOO {
                     System.out.println("[2] Criatura");
                     System.out.println("[3] Terra");
                     System.out.print("Selecciona: ");
-                    
+
                     String tipusMod = s.nextLine();
-                    
+
                     if (tipusMod.matches("[0-9]+")) {
 
                         System.out.print("Introdueix ID de la carta a modificar: ");
                         boolean idValid = false;
                         int idm = 0;
-                        
+
                         do {
                             try {
                                 System.out.print("Introdueix ID: ");
@@ -268,6 +281,50 @@ public class BDOO {
                     }
                     break;
 
+                case "17":
+                    System.out.println("-- Assignar mazo a jugador --");
+                    queryDAO.assignarMazoAJugador();
+                    break;
+
+                case "18":
+                    System.out.println("-- Treure mazo de jugador --");
+                    queryDAO.treureMazoDeJugador();
+                    break;
+
+                case "19":
+                    System.out.println("-- Criaturas que volen amb cost de mana --");
+                    queryDAO.criaturesQueVolenAmbCostMana();
+                    break;
+
+                case "20":
+                    System.out.println("-- Mitja de força de criaturas d'un mazo --");
+                    queryDAO.mitjaForcaCriaturesDelMazo();
+                    break;
+
+                case "21":
+                    System.out.println("-- Encanteris sense blau ni blanc i incolor > 3 --");
+                    queryDAO.encanterisIncolorsSenseBlauNiBlanc();
+                    break;
+                    
+                case "50":
+                    
+                    System.out.println("-- Importar cartes des de fitxer --");
+                    String ruta = BDOO.class.getClassLoader().getResource("cartes.txt").getPath();
+                    
+                    try {
+                        
+                        ImportadorDeCartes importador = new ImportadorDeCartes();
+                        List<Object> cartesImportades = importador.importarCartes(ruta);
+                        importarCartes(cartesImportades);
+                        
+                    } catch (IOException e) {
+                        
+                        System.out.println("ERROR: No s'ha pogut llegir el fitxer.");
+                        e.printStackTrace();
+                        
+                    }
+                    break;
+
                 case "0":
                     System.out.println("Fins aviat!");
                     BDOOUtil.tancarConexio();
@@ -281,5 +338,52 @@ public class BDOO {
         }
 
         s.close();
+    }
+    
+    
+
+    public static void importarCartes(List<Object> cartes) {
+        
+        EntityManager em = BDOOUtil.getEntityManager();
+        
+        try {
+            em.getTransaction().begin();
+            for (Object carta : cartes) {
+                em.persist(carta);
+            }
+            em.getTransaction().commit();
+            System.out.println(cartes.size() + " cartes importades correctament.");
+        } catch (Exception e) {
+            System.out.println("ERROR important les cartes.");
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } 
+        
+        em.close();
+        
+    }
+
+    public static void buidarBaseDades() {
+        EntityManager em = BDOOUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.createQuery("DELETE FROM Encanteri").executeUpdate();
+            em.createQuery("DELETE FROM Criatura").executeUpdate();
+            em.createQuery("DELETE FROM Terra").executeUpdate();
+            em.createQuery("DELETE FROM Carta").executeUpdate();
+            em.createQuery("DELETE FROM Mazo").executeUpdate();
+            em.createQuery("DELETE FROM Jugador").executeUpdate();
+            em.getTransaction().commit();
+            System.out.println("Base de dades buidada.");
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        }
+        em.close();
+
     }
 }
