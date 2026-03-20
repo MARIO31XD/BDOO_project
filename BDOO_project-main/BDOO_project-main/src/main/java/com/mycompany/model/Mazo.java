@@ -10,22 +10,22 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Mazo {
-    
+
     @Id
     @GeneratedValue
     Long id;
-    
+
     String nom;
     LocalDate dataCreacio;
-    
-    @ManyToMany(cascade = CascadeType.PERSIST)
+
+    @ManyToMany
     List<Carta> cartes;
 
     public Mazo(String nom, LocalDate dataCreacio) {
         this.nom = nom;
         this.dataCreacio = dataCreacio;
     }
-    
+
     //afegir una carta
     public void afegirCarta(Carta carta) {
         this.cartes.add(carta);
@@ -33,9 +33,26 @@ public class Mazo {
 
     @Override
     public String toString() {
-        return "Mazo: " + "ID: " + id + " | Nom: " + nom + " | Data de creació: " + dataCreacio + " | Cartes: " + cartes;
+        return "Mazo: " + "ID: " + id + " | Nom: " + nom + " | Data de creació: " + dataCreacio + " | Cartes: \n" + imprimirLlistaCartes();
     }
+
+    public String imprimirLlistaCartes() {
+        //si esta vacio...
+        if (cartes == null || cartes.isEmpty()) {
+            return "El mazo no té cartes.";
+        }
+        //stringbuilder para juntar todos los nombres
+        StringBuilder sb = new StringBuilder();
         
+        for (Carta carta : cartes) {
+            sb.append("  - ID: ").append(carta.getId())
+                    .append(" | Nom: ").append(carta.getNom())
+                    .append(" | Tipus: ").append(carta.getClass().getSimpleName()) //pillar el tipo de carta que es
+                    .append("\n");
+        }
+        return sb.toString();
+    }
+
     public Long getId() {
         return id;
     }
@@ -67,5 +84,5 @@ public class Mazo {
     public void setCartes(List<Carta> cartes) {
         this.cartes = cartes;
     }
-    
+
 }
