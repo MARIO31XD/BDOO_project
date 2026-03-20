@@ -69,13 +69,15 @@ public class CartaDAO {
         
         EntityManager em = BDOOUtil.getEntityManager();
         try {
-            TypedQuery<T> query = em.createQuery(
-                "SELECT e FROM " + tipus.getSimpleName() + " e WHERE e.id = :id", tipus);
+            TypedQuery<T> query = em.createQuery( "SELECT e FROM " + tipus.getSimpleName() + " e WHERE e.id = :id", tipus);
             query.setParameter("id", id);
-            return query.getSingleResult();
-        } finally {
+            T res =  query.getSingleResult();
             em.close();
-        }        
+            return res;
+        } catch (Exception e) {
+           e.getMessage();
+        }
+        return null;
         //para imprimir la carta hacer: Carta c = cDAO.obtenirCartaPerID(id); System.out.print(c);
     }
 
