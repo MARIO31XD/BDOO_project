@@ -23,7 +23,7 @@ public class Encanteri extends Carta {
 
     @Override
     public String toString() {
-        return "Encanteri: ID: " + id + " Nom: " + nom +  "Descripcio: " + descripcio + " | Tipus: " + tipus + " | Es Instantani?: " + esInstantani + "Cost de mana: " + cost.toString() + "Raresa: " + raresa + " Edicio: " + edicio;
+        return "ID: " + id + " Encanteri:  Nom: " + nom +  "Descripcio: " + descripcio + " | Tipus: " + tipus + " | Es Instantani?: " + esInstantani + "Cost de mana: " + cost.toString() + "Raresa: " + raresa + " Edicio: " + edicio;
     }
     
     public String getTipus() {
