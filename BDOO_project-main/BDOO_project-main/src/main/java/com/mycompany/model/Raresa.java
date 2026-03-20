@@ -6,6 +6,7 @@ public enum Raresa {
     
     COMUNA("Comuna"),
     RARA("Rara"),
+    INFREQUENT("Infrequent"),
     MITICA("Mítica");
 
     private final String mostrarRaresa;
