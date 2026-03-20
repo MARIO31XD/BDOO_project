@@ -23,7 +23,7 @@ public class Encanteri extends Carta {
 
     @Override
     public String toString() {
-        return "Encanteri: " + " | Tipus: " + tipus + " | Es Instantani?: " + esInstantani;
+        return "Encanteri: ID: " + id + " Nom: " + nom +  "Descripcio: " + descripcio + " | Tipus: " + tipus + " | Es Instantani?: " + esInstantani + "Cost de mana: " + cost.toString() + "Raresa: " + raresa + " Edicio: " + edicio;
     }
     
     public String getTipus() {
@@ -61,5 +61,14 @@ public class Encanteri extends Carta {
     public void setEdicio(String edicio) {
         this.edicio = edicio;
     }
+
+    public void setCost(CostMana cost) {
+        this.cost = cost;
+    }
+
+    public void setRaresa(Raresa raresa) {
+        this.raresa = raresa;
+    }
+
     
 }
