@@ -47,10 +47,14 @@ public class TerraDAO {
                     continuar = true;
                     break;
                 case "2":
-                    raresa = Raresa.RARA;
+                    raresa = Raresa.INFREQUENT;
                     continuar = true;
                     break;
                 case "3":
+                    raresa = Raresa.RARA;
+                    continuar = true;
+                    break;
+                case "4":
                     raresa = Raresa.MITICA;
                     continuar = true;
                     break;
@@ -175,10 +179,14 @@ public class TerraDAO {
                     continuar = true;
                     break;
                 case "2":
-                    raresa = Raresa.RARA;
+                    raresa = Raresa.INFREQUENT;
                     continuar = true;
                     break;
                 case "3":
+                    raresa = Raresa.RARA;
+                    continuar = true;
+                    break;
+                case "4":
                     raresa = Raresa.MITICA;
                     continuar = true;
                     break;
