@@ -2,27 +2,35 @@ package com.mycompany.model;
 
 import javax.persistence.Entity;
 
-@Entity 
+@Entity
 public class Criatura extends Carta {
 
-    private int forca;          
-    private int resistencia;    
-    private String tipusCriatura; 
-    private boolean vola;       
-
+    private int forca;
+    private int resistencia;
+    private String tipusCriatura;
+    private boolean vola;
 
     public Criatura() {
     }
 
     // Constructor 
     public Criatura(String nom, String descripcio, String edicio, Raresa raresa, CostMana cost, int forca, int resistencia, String tipusCriatura, boolean vola) {
-        
-        super(nom, descripcio, edicio, raresa, cost); 
-        
+
+        super(nom, descripcio, edicio, raresa, cost);
+
         this.forca = forca;
         this.resistencia = resistencia;
         this.tipusCriatura = tipusCriatura;
         this.vola = vola;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + getId() + " Criatura: " + getNom()
+                + " | Força: " + forca
+                + " | Resistència: " + resistencia
+                + " | Tipus: " + tipusCriatura
+                + " | Vola: " + vola;
     }
 
     public int getForca() {
@@ -65,4 +73,54 @@ public class Criatura extends Carta {
         System.out.println("P/T: " + forca + "/" + resistencia);
         System.out.println("Vola: " + (vola ? "Sí" : "No"));
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getDescripcio() {
+        return descripcio;
+    }
+
+    public String getEdicio() {
+        return edicio;
+    }
+
+    public Raresa getRaresa() {
+        return raresa;
+    }
+
+    public CostMana getCost() {
+        return cost;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setDescripcio(String descripcio) {
+        this.descripcio = descripcio;
+    }
+
+    public void setEdicio(String edicio) {
+        this.edicio = edicio;
+    }
+
+    public void setRaresa(Raresa raresa) {
+        this.raresa = raresa;
+    }
+
+    public void setCost(CostMana cost) {
+        this.cost = cost;
+    }
+    
+    
 }
