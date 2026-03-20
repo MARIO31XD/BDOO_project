@@ -81,16 +81,13 @@ public class MazoDAO {
         try {
             // join fetch dice a jpa que cargue las cartas en la query antes de cerrar el em para que aparezcan y no diga que no tiene cartas
             //distinct para no duplicar filas
-            TypedQuery<Mazo> query = em.createQuery("SELECT DISTINCT m FROM Mazo m JOIN FETCH m.cartes WHERE m.id = :id", Mazo.class);
-            query.setParameter("id", id);
-            Mazo mres = query.getSingleResult();
-            em.close();
-            return mres;
-
-        } catch (javax.persistence.NoResultException e) {
-
-            System.out.println("No s'ha trobat cap mazo amb ID " + id);
-            return null;
+        TypedQuery<Mazo> query = em.createQuery(
+                    "SELECT DISTINCT m FROM Mazo m LEFT JOIN FETCH m.cartes WHERE m.id = :id", Mazo.class);
+                query.setParameter("id", (long) id);
+                return query.getSingleResult();
+            } catch (javax.persistence.NoResultException e) {
+                System.out.println("No s'ha trobat cap mazo amb ID " + id);
+                return null;
 
         } finally {
             em.close();
