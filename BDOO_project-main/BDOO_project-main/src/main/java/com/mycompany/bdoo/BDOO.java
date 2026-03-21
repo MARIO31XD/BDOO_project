@@ -62,13 +62,11 @@ public class BDOO {
             System.out.println("14. Modificar jugador");
             System.out.println("15. Eliminar jugador");
             System.out.println(ANSI_YELLOW + "-- Consultes --");
-            System.out.println("-- Consultes --");
-            System.out.println("16. Importar cartes des de fitxer");
-            System.out.println("17. Assignar mazo a jugador");
-            System.out.println("18. Treure mazo de jugador");
-            System.out.println("19. Criaturas que volen amb cost de mana");
-            System.out.println("20. Mitja de força de criaturas d'un mazo");
-            System.out.println("21. Encanteris sense blau ni blanc i incolor > 3");
+            System.out.println("16. Assignar mazo a jugador");
+            System.out.println("17. Treure mazo de jugador");
+            System.out.println("18. Criaturas que volen amb cost de mana");
+            System.out.println("19. Mitja de força de criaturas d'un mazo");
+            System.out.println("20. Encanteris sense blau ni blanc i incolor > 3");
             System.out.println(ANSI_YELLOW + "----Extra-----");
             System.out.println("50. Importar cartes des de fitxer");
             System.out.println("0. Sortir");
@@ -281,27 +279,27 @@ public class BDOO {
                     }
                     break;
 
-                case "17":
+                case "16":
                     System.out.println("-- Assignar mazo a jugador --");
                     queryDAO.assignarMazoAJugador();
                     break;
 
-                case "18":
+                case "17":
                     System.out.println("-- Treure mazo de jugador --");
                     queryDAO.treureMazoDeJugador();
                     break;
 
-                case "19":
+                case "18":
                     System.out.println("-- Criaturas que volen amb cost de mana --");
                     queryDAO.criaturesQueVolenAmbCostMana();
                     break;
 
-                case "20":
+                case "19":
                     System.out.println("-- Mitja de força de criaturas d'un mazo --");
                     queryDAO.mitjaForcaCriaturesDelMazo();
                     break;
 
-                case "21":
+                case "20":
                     System.out.println("-- Encanteris sense blau ni blanc i incolor > 3 --");
                     queryDAO.encanterisIncolorsSenseBlauNiBlanc();
                     break;
